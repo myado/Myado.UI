@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myado.UI", "Myado.UI\Myado.UI.csproj", "{79D1D517-DBA1-4AC1-BE0C-10175B352CDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myado.UI.Showcase", "Myado.UI.Showcase\Myado.UI.Showcase.csproj", "{52D58AF9-3B1C-49B8-B13A-1DCB75043866}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{79D1D517-DBA1-4AC1-BE0C-10175B352CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79D1D517-DBA1-4AC1-BE0C-10175B352CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79D1D517-DBA1-4AC1-BE0C-10175B352CDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52D58AF9-3B1C-49B8-B13A-1DCB75043866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D58AF9-3B1C-49B8-B13A-1DCB75043866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D58AF9-3B1C-49B8-B13A-1DCB75043866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D58AF9-3B1C-49B8-B13A-1DCB75043866}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

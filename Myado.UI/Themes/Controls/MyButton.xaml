@@ -1,0 +1,432 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Myado.UI.Controls">
+    <Style TargetType="{x:Type local:MyButton}">
+        <Setter Property="Background"
+                Value="{DynamicResource Theme}"></Setter>
+        <Setter Property="BorderThickness"
+                Value="0"></Setter>
+        <Setter Property="Foreground"
+                Value="White"></Setter>
+        <Setter Property="Content"
+                Value="Button"></Setter>
+        <Setter Property="VerticalContentAlignment"
+                Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center"></Setter>
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}"></Setter>
+        <Style.Triggers>
+            <Trigger Property="ButtonStyle"
+                     Value="General">
+                <Setter Property="CoverBrush"
+                        Value="#26FFFFFF" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:MyButton}">
+                            <Grid x:Name="grdMain">
+                                <Border x:Name="bdrOuter"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}">
+                                    <Border x:Name="bdrInner"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="0"
+                                            ClipToBounds="True"
+                                            CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}" />
+                                </Border>
+                                <Border x:Name="bdrHoverCover"
+                                        Background="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        Opacity="0"></Border>
+                                <Border x:Name="bdrPressedCover"
+                                        Background="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        Opacity="0"></Border>
+                                <ContentPresenter x:Name="content"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  ContentSource="Content"></ContentPresenter>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="False">
+                                    <Setter Property="Opacity"
+                                            Value="0.4"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed"
+                                         Value="True">
+                                    <Setter TargetName="bdrPressedCover"
+                                            Property="Opacity"
+                                            Value="1"></Setter>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsPressed"
+                                                   Value="True"></Condition>
+                                        <Condition Property="ClickStyle"
+                                                   Value="Sink"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="grdMain"
+                                                Property="Margin"
+                                                Value="0,1.5,0,-1"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="bdrHoverCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.3"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="bdrHoverCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.3"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="ButtonStyle"
+                     Value="Hollow">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Theme}"></Setter>
+                <Setter Property="BorderBrush"
+                        Value="{StaticResource Theme}"></Setter>
+                <Setter Property="BorderThickness"
+                        Value="1"></Setter>
+                <Setter Property="CoverBrush"
+                        Value="{StaticResource Theme}"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:MyButton}">
+                            <Grid x:Name="grdMain">
+                                <Border x:Name="bdrOuter"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}">
+                                    <Grid>
+                                        <Border x:Name="bdrHoverCover"
+                                                Background="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"
+                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                                Opacity="0"
+                                                Margin="-1"></Border>
+                                        <Border x:Name="bdrInner"
+                                                BorderThickness="0"
+                                                ClipToBounds="True"
+                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}">
+                                            <ContentPresenter x:Name="content"
+                                                              Margin="{TemplateBinding Padding}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              ContentSource="Content"></ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="bdrPressedCover"
+                                        Background="White"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        Opacity="0"></Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="False">
+                                    <Setter Property="Opacity"
+                                            Value="0.4"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed"
+                                         Value="True">
+                                    <Setter TargetName="bdrPressedCover"
+                                            Property="Opacity"
+                                            Value="0.1"></Setter>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsPressed"
+                                                   Value="True"></Condition>
+                                        <Condition Property="ClickStyle"
+                                                   Value="Sink"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="grdMain"
+                                                Property="Margin"
+                                                Value="0,1.5,0,-1"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="bdrHoverCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.3"></DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)"
+                                                                To="White"
+                                                                Duration="0:0:0.3"></ColorAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="bdrHoverCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.3"></DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)"
+                                                                Duration="0:0:0.3"></ColorAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="ButtonStyle"
+                     Value="Outline">
+                <Setter Property="Foreground"
+                        Value="LightGray"></Setter>
+                <Setter Property="BorderBrush"
+                        Value="LightGray"></Setter>
+                <Setter Property="BorderThickness"
+                        Value="1"></Setter>
+                <Setter Property="CoverBrush"
+                        Value="{StaticResource Theme}"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:MyButton}">
+                            <Grid x:Name="grdMain">
+                                <Border x:Name="bdrOuter"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}">
+                                    <Grid>
+                                        <Border x:Name="bdrInner"
+                                                BorderThickness="0"
+                                                ClipToBounds="True"
+                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}">
+                                            <ContentPresenter x:Name="content"
+                                                              Margin="{TemplateBinding Padding}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              ContentSource="Content"></ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="bdrHoverCover"
+                                        Background="Transparent"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        Opacity="1">
+                                    <Border.OpacityMask>
+                                        <RadialGradientBrush GradientOrigin="0.5,0.5"
+                                                             RadiusX="1"
+                                                             RadiusY="1">
+                                            <GradientStopCollection>
+                                                <GradientStop Offset="0"
+                                                              Color="White"></GradientStop>
+                                                <GradientStop x:Name="offset"
+                                                              Offset="0"
+                                                              Color="Transparent"></GradientStop>
+                                            </GradientStopCollection>
+                                        </RadialGradientBrush>
+                                    </Border.OpacityMask>
+                                    <Label Margin="{TemplateBinding Padding}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           Content="{TemplateBinding Content}"
+                                           Foreground="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"></Label>
+
+                                </Border>
+                                <Border x:Name="bdrPressedCover"
+                                        Background="{TemplateBinding CoverBrush}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Button}}"
+                                        Opacity="0"></Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="False">
+                                    <Setter Property="Opacity"
+                                            Value="0.4"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed"
+                                         Value="True">
+                                    <Setter TargetName="bdrPressedCover"
+                                            Property="Opacity"
+                                            Value="0.1"></Setter>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsPressed"
+                                                   Value="True"></Condition>
+                                        <Condition Property="ClickStyle"
+                                                   Value="Sink"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="grdMain"
+                                                Property="Margin"
+                                                Value="0,2,0,-1.5"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="offset"
+                                                                 Storyboard.TargetProperty="Offset"
+                                                                 To="1"
+                                                                 Duration="0:0:0.15"></DoubleAnimation>
+                                                <ColorAnimation Storyboard.TargetName="offset"
+                                                                Storyboard.TargetProperty="Color"
+                                                                To="White"
+                                                                Duration="0:0:0.05"
+                                                                BeginTime="0:0:0.15"></ColorAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="offset"
+                                                                Storyboard.TargetProperty="Color"
+                                                                To="Transparent"
+                                                                Duration="0:0:0.05"></ColorAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="offset"
+                                                                 Storyboard.TargetProperty="Offset"
+                                                                 To="0"
+                                                                 Duration="0:0:0.15"
+                                                                 BeginTime="0:0:0.05"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="ButtonStyle"
+                     Value="Link">
+                <Setter Property="Foreground"
+                        Value="LightGray"></Setter>
+                <Setter Property="BorderBrush"
+                        Value="LightGray"></Setter>
+                <Setter Property="BorderThickness"
+                        Value="1"></Setter>
+                <Setter Property="CoverBrush"
+                        Value="{StaticResource Theme}"></Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:MyButton}">
+                            <Grid x:Name="grdMain"
+                                  Background="Transparent">
+                                <Label x:Name="lblContent"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       Content="{TemplateBinding Content}"></Label>
+                                <Label x:Name="lblCover"
+                                       Opacity="0"
+                                       Foreground="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=Button}}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       Content="{TemplateBinding Content}"></Label>
+                                <Label x:Name="lblPressedCover"
+                                       Opacity="0"
+                                       Foreground="White"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       Content="{TemplateBinding Content}"></Label>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="False">
+                                    <Setter Property="Opacity"
+                                            Value="0.4"></Setter>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsPressed"
+                                                   Value="True"></Condition>
+                                        <Condition Property="ClickStyle"
+                                                   Value="Sink"></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter TargetName="grdMain"
+                                                Property="Margin"
+                                                Value="0,1.5,0,-1"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsPressed"
+                                         Value="True">
+                                    <Setter TargetName="lblPressedCover"
+                                            Property="Opacity"
+                                            Value="0.2"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="lblContent"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.15"></DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="lblCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.15"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="lblContent"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1"
+                                                                 Duration="0:0:0.15"></DoubleAnimation>
+                                                <DoubleAnimation Storyboard.TargetName="lblCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.15"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
