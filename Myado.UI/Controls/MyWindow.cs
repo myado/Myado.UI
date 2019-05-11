@@ -80,6 +80,7 @@ namespace Myado.UI.Controls
             var auto = Owner;
             Loaded += delegate
             {
+                _hwndSource = (HwndSource)PresentationSource.FromVisual(this); //add by mao
                 if (AllowAutoCoverMask && (Owner as MyWindow) != null)
                 {
                     (Owner as MyWindow).IsCoverMaskShow = true;
@@ -222,15 +223,15 @@ namespace Myado.UI.Controls
 
         protected override void OnInitialized(EventArgs e)
         {
-            SourceInitialized += MainWindow_SourceInitialized;
+            //SourceInitialized += MainWindow_SourceInitialized;
 
             base.OnInitialized(e);
         }
 
-        private void MainWindow_SourceInitialized(object sender, EventArgs e)
-        {
-            _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-        }
+        //private void MainWindow_SourceInitialized(object sender, EventArgs e)
+        //{
+        //    _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+        //}
 
         protected void OnPreviewMouseMove(object sender, MouseEventArgs e)
         {
