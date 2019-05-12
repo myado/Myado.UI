@@ -222,7 +222,7 @@ namespace Myado.UI.Controls
 
         protected override void OnInitialized(EventArgs e)
         {
-            //SourceInitialized += MainWindow_SourceInitialized;
+            SourceInitialized += MainWindow_SourceInitialized;
 
             base.OnInitialized(e);
         }
