@@ -72,10 +72,16 @@
     <Compile Include="Constants\AnimationStyles.cs" />
     <Compile Include="Constants\ButtonStyles.cs" />
     <Compile Include="Constants\ClickStyles.cs" />
+    <Compile Include="Constants\RadioButtonStyles.cs" />
     <Compile Include="Controls\Core\MyLoading.xaml.cs">
       <DependentUpon>MyLoading.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MyRadioButton.cs" />
     <Compile Include="Controls\MyWindow.cs" />
+    <Page Include="Themes\Controls\MyRadioButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Controls\MyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
