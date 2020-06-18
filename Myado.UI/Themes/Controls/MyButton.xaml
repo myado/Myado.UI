@@ -105,13 +105,13 @@
             <Trigger Property="ButtonStyle"
                      Value="Hollow">
                 <Setter Property="Foreground"
-                        Value="{StaticResource Theme}"></Setter>
+                        Value="{DynamicResource Theme}"></Setter>
                 <Setter Property="BorderBrush"
-                        Value="{StaticResource Theme}"></Setter>
+                        Value="{DynamicResource Theme}"></Setter>
                 <Setter Property="BorderThickness"
                         Value="1"></Setter>
                 <Setter Property="CoverBrush"
-                        Value="{StaticResource Theme}"></Setter>
+                        Value="{DynamicResource Theme}"></Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type local:MyButton}">

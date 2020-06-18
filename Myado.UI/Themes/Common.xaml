@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     >
-    <SolidColorBrush x:Key="Theme"
-                     Color="#FF3E3E3E" />
+    <SolidColorBrush x:Key="Theme" Color="#FF3E3E3E" />
     <FontFamily x:Key="IconFont">pack://application:,,,/Myado.UI;component/Resources/Fonts/fontawesome.ttf#fontawesome</FontFamily>
 </ResourceDictionary>

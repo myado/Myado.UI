@@ -677,7 +677,12 @@ namespace Myado.UI.Controls
 
         private static MyWindow GetWindowFromHwnd(IntPtr hwnd)
         {
-            var visual = HwndSource.FromHwnd(hwnd).RootVisual;
+            var hs = HwndSource.FromHwnd(hwnd);
+            if(hs == null)
+            {
+                return null;
+            }
+            var visual = hs.RootVisual;
             return visual as MyWindow;
         }
         private static MyWindow GetOwnerWindow()
