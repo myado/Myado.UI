@@ -72,6 +72,18 @@ namespace Myado.UI.Controls
         }
         public static readonly DependencyProperty CoverBrushProperty = DependencyProperty.Register("CoverBrush", typeof(Brush), typeof(MyRadioButton));
 
+
+        /// <summary>
+        /// 获取或设置鼠标悬浮时遮罩层的背景颜色（在Outline和Link样式下为前景色），默认值为#26FFFFFF（在Hollow、Outline和Link样式下为灰黑色）。
+        /// </summary>
+        public double BorderCornerRadius
+        {
+            get { return (double)GetValue(BorderCornerRadiusProperty); }
+            set { SetValue(BorderCornerRadiusProperty, value); }
+        }
+        public static readonly DependencyProperty BorderCornerRadiusProperty = DependencyProperty.Register("BorderCornerRadius", typeof(double), typeof(MyRadioButton));
+
+
         /// <summary>
         /// 获取或设置鼠标点击时按钮的效果。默认为无特殊效果（Classic）。
         /// </summary>
