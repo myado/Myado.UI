@@ -12,6 +12,10 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using U32 =  PInvoke.User32;
+using PInvoke;
+using Myado.Helpers;
+using System.Linq;
 
 namespace Myado.UI.Controls
 {
@@ -64,11 +68,11 @@ namespace Myado.UI.Controls
         /// </summary>
         public MyWindow()
         {
-            try
-            {
-                Owner = GetOwnerWindow();
-            }
-            catch (Exception ex) { }
+            //try
+            //{
+            //    Owner = GetOwnerWindow();
+            //}
+            //catch (Exception ex) { }
 
             PreviewMouseMove += OnPreviewMouseMove;
         }
@@ -227,6 +231,50 @@ namespace Myado.UI.Controls
             base.OnInitialized(e);
         }
 
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            IntPtr handle = (new WindowInteropHelper(this)).Handle;
+            HwndSource.FromHwnd(handle).AddHook(WindowProc);
+        }
+
+        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case 0x0024:
+                    WmGetMinMaxInfo(hwnd, lParam);
+                    handled = true;
+                    break;
+            }
+
+            return (IntPtr)0;
+        }
+
+        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+        {
+            var mmi = (U32.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(U32.MINMAXINFO));
+
+            System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(hwnd);
+            IntPtr hMonitor = System.Windows.Forms.ScreenExtensions.GetMonitorHandle(screen);
+
+            if (hMonitor != IntPtr.Zero)
+            {
+                var monitorInfo = new U32.MONITORINFO();
+                monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
+                bool b = U32.GetMonitorInfo(hMonitor, ref monitorInfo);
+                RECT rcWorkArea = monitorInfo.rcWork;
+                RECT rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.x = Math.Abs(rcWorkArea.left - rcMonitorArea.left)-5;
+                mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top)-5;
+                //下两行是用来控制不摭挡工具栏    
+                mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left) + 10;
+                mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top) + 10;
+            }
+
+            Marshal.StructureToPtr(mmi, lParam, true);
+        }
+
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
         {
             _hwndSource = (HwndSource)PresentationSource.FromVisual(this);
@@ -368,18 +416,6 @@ namespace Myado.UI.Controls
 
         public static readonly DependencyProperty ResultProperty =
             DependencyProperty.Register("Result", typeof(object), typeof(MyWindow));
-
-        /// <summary>
-        /// 获取或设置窗体的返回结果，不会对前端显示造成影响。默认值为Null
-        /// </summary>
-        public Rect MaximizedRestoreBound
-        {
-            get { return (Rect)GetValue(MaximizedRestoreBoundProperty); }
-            set { SetValue(MaximizedRestoreBoundProperty, value); }
-        }
-
-        public static readonly DependencyProperty MaximizedRestoreBoundProperty =
-            DependencyProperty.Register("MaximizedRestoreBound", typeof(Rect), typeof(MyWindow));
 
         /// <summary>
         ///获取或设置是否打开窗体的遮罩层。默认值为False。
@@ -734,26 +770,11 @@ namespace Myado.UI.Controls
             var window = (parameter as MyWindow);
             if (window.WindowState == WindowState.Maximized)
             {
-                window.Left = window.MaximizedRestoreBound.Left;
-                window.Top = window.MaximizedRestoreBound.Top;
-                window.Width = window.MaximizedRestoreBound.Width;
-                window.Height = window.MaximizedRestoreBound.Height;
                 window.WindowState = WindowState.Normal;
             }
 
             else
             {
-                //获取窗口句柄 
-                var handle = new WindowInteropHelper(window).Handle;
-                //获取当前显示器屏幕
-                Forms.Screen screen = Forms.Screen.FromHandle(handle);
-
-                window.MaximizedRestoreBound = new Rect(window.Left, window.Top, window.Width, window.Height);
-                //调整窗口最大化,全屏的关键代码就是下面3句 
-                window.Left = screen.WorkingArea.Left;
-                window.Top = screen.WorkingArea.Top;
-                window.MaxWidth = screen.WorkingArea.Width+12;
-                window.MaxHeight = screen.WorkingArea.Height+12;
                 window.WindowState = WindowState.Maximized;
             }
         }
@@ -776,5 +797,4 @@ namespace Myado.UI.Controls
             (parameter as MyWindow).WindowState = WindowState.Minimized;
         }
     }
-
 }

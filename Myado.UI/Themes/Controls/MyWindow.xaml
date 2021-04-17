@@ -86,7 +86,9 @@
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
                                                     <local:MyButton x:Name="btnMin"
                                                                     Visibility="Collapsed"
-                                                                    Content="-"
+                                                                    Content="&#xe66a;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MinCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -96,10 +98,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnMax"
                                                                     Visibility="Collapsed"
-                                                                    Content="□"
+                                                                    Content="&#xe669;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MaxCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -109,10 +113,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnClose"
                                                                     Visibility="Collapsed"
-                                                                    Content="×"
+                                                                    Content="&#xe61f;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding CloseCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -122,7 +128,7 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}" />
+                                                                    />
                                                 </StackPanel>
                                             </Grid>
                                             <Grid Grid.Row="1"
@@ -207,6 +213,9 @@
                                 </Grid>
                             </Grid>
                             <ControlTemplate.Triggers>
+                                <Trigger Property="WindowState" Value="Maximized">
+                                    <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
+                                </Trigger>
                                 <EventTrigger RoutedEvent="BeginLoadStoryboard">
                                     <BeginStoryboard>
                                         <Storyboard>
@@ -436,7 +445,9 @@
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
                                                     <local:MyButton x:Name="btnMin"
                                                                     Visibility="Hidden"
-                                                                    Content="-"
+                                                                    Content="&#xe66a;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MinCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -446,10 +457,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnMax"
                                                                     Visibility="Hidden"
-                                                                    Content="□"
+                                                                    Content="&#xe669;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MaxCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -459,10 +472,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnClose"
                                                                     Visibility="Hidden"
-                                                                    Content="×"
+                                                                    Content="&#xe61f;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding CloseCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -472,7 +487,7 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}" />
+                                                                    />
                                                 </StackPanel>
                                             </Grid>
                                             <Grid Grid.Row="1"
@@ -557,6 +572,9 @@
                                 </Grid>
                             </Grid>
                             <ControlTemplate.Triggers>
+                                <Trigger Property="WindowState" Value="Maximized">
+                                    <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
+                                </Trigger>
                                 <EventTrigger RoutedEvent="BeginLoadStoryboard">
                                     <BeginStoryboard>
                                         <Storyboard>
@@ -798,7 +816,9 @@
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
                                                     <local:MyButton x:Name="btnMin"
                                                                     Visibility="Hidden"
-                                                                    Content="-"
+                                                                    Content="&#xe66a;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MinCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -808,10 +828,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnMax"
                                                                     Visibility="Hidden"
-                                                                    Content="□"
+                                                                    Content="&#xe669;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding MaxCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -821,10 +843,12 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}"></local:MyButton>
+                                                                    ></local:MyButton>
                                                     <local:MyButton x:Name="btnClose"
                                                                     Visibility="Hidden"
-                                                                    Content="×"
+                                                                    Content="&#xe61f;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
                                                                     Command="{Binding CloseCommand,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
                                                                     ButtonStyle="Hollow"
@@ -834,7 +858,7 @@
                                                                     Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
-                                                                    FontSize="{TemplateBinding FontSize,Converter={StaticResource IconFontSizeConverter}}" />
+                                                                     />
                                                 </StackPanel>
                                             </Grid>
                                             <Grid Grid.Row="1"
@@ -919,6 +943,9 @@
                                 </Grid>
                             </Grid>
                             <ControlTemplate.Triggers>
+                                <Trigger Property="WindowState" Value="Maximized">
+                                    <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
+                                </Trigger>
                                 <EventTrigger RoutedEvent="BeginLoadStoryboard">
                                     <BeginStoryboard>
                                         <Storyboard>
