@@ -359,46 +359,46 @@ namespace Myado.UI.Controls
         /// <summary>
         /// 使用动画打开窗体。
         /// </summary>
-        internal static readonly RoutedEvent BeginLoadStoryboardEvent = EventManager.RegisterRoutedEvent("BeginLoadStoryboard", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<MyWindow>), typeof(MyWindow));
-        internal event RoutedPropertyChangedEventHandler<MyWindow> BeginLoadStoryboard
+        public static readonly RoutedEvent BeginLoadStoryboardEvent = EventManager.RegisterRoutedEvent("BeginLoadStoryboard", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyWindow));
+        public event RoutedEventHandler BeginLoadStoryboard
         {
             add { AddHandler(BeginLoadStoryboardEvent, value); }
             remove { RemoveHandler(BeginLoadStoryboardEvent, value); }
         }
-        internal void OnBeginLoadStoryboard()
+        public void OnBeginLoadStoryboard()
         {
-            RoutedPropertyChangedEventArgs<MyWindow> arg = new RoutedPropertyChangedEventArgs<MyWindow>(null, this, BeginLoadStoryboardEvent);
-            RaiseEvent(arg);
+            RoutedEventArgs args = new RoutedEventArgs(MyWindow.BeginLoadStoryboardEvent);
+            RaiseEvent(args);
         }
 
         /// <summary>
         /// 不使用动画打开窗体。
         /// </summary>
-        internal static readonly RoutedEvent SkipLoadStoryboardEvent = EventManager.RegisterRoutedEvent("SkipLoadStoryboard", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<MyWindow>), typeof(MyWindow));
-        internal event RoutedPropertyChangedEventHandler<MyWindow> SkipLoadStoryboard
+        public static readonly RoutedEvent SkipLoadStoryboardEvent = EventManager.RegisterRoutedEvent("SkipLoadStoryboard", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyWindow));
+        public event RoutedEventHandler SkipLoadStoryboard
         {
             add { AddHandler(SkipLoadStoryboardEvent, value); }
             remove { RemoveHandler(SkipLoadStoryboardEvent, value); }
         }
-        internal void OnSkipLoadStoryboard()
+        public void OnSkipLoadStoryboard()
         {
-            RoutedPropertyChangedEventArgs<MyWindow> arg = new RoutedPropertyChangedEventArgs<MyWindow>(null, this, SkipLoadStoryboardEvent);
-            RaiseEvent(arg);
+            RoutedEventArgs args = new RoutedEventArgs(MyWindow.SkipLoadStoryboardEvent);
+            RaiseEvent(args);
         }
 
         /// <summary>
         /// 使用动画关闭窗体。
         /// </summary>
-        internal static readonly RoutedEvent BeginCloseStoryboardEvent = EventManager.RegisterRoutedEvent("BeginCloseStoryboard", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<MyWindow>), typeof(MyWindow));
-        internal event RoutedPropertyChangedEventHandler<MyWindow> BeginCloseStoryboard
+        public static readonly RoutedEvent BeginCloseStoryboardEvent = EventManager.RegisterRoutedEvent("BeginCloseStoryboard", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MyWindow));
+        public event RoutedEventHandler BeginCloseStoryboard
         {
             add { AddHandler(BeginCloseStoryboardEvent, value); }
             remove { RemoveHandler(BeginCloseStoryboardEvent, value); }
         }
-        internal void OnBeginCloseStoryboard()
+        public void OnBeginCloseStoryboard()
         {
-            RoutedPropertyChangedEventArgs<MyWindow> arg = new RoutedPropertyChangedEventArgs<MyWindow>(null, this, BeginCloseStoryboardEvent);
-            RaiseEvent(arg);
+            RoutedEventArgs args = new RoutedEventArgs(MyWindow.BeginCloseStoryboardEvent);
+            RaiseEvent(args);
         }
 
         #endregion

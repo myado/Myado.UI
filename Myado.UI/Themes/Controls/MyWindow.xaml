@@ -5,7 +5,382 @@
                     xmlns:core="clr-namespace:Myado.UI.Controls.Core">
     <cvt:HeaderConverter x:Key="HeaderConverter"></cvt:HeaderConverter>
     <cvt:IconFontSizeConverter x:Key="IconFontSizeConverter"></cvt:IconFontSizeConverter>
-    
+    <ControlTemplate x:Key="MyWindowScaleTemplate" TargetType="{x:Type local:MyWindow}">
+        <Grid>
+            <Border x:Name="bdrOuter"
+                                        Margin="5"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
+                                        RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <ScaleTransform x:Name="scale"
+                                                        ScaleX="0.95"
+                                                        ScaleY="0.95" />
+                </Border.RenderTransform>
+                <Grid x:Name="grdContent"
+                                          Opacity="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="grdNavbar"
+                                                  Background="{Binding NavbarBackground,RelativeSource={RelativeSource AncestorType=Window}}">
+                            <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Left"
+                                                            Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}">
+                                <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                           Margin="3,0,0,0"
+                                                           VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Left"
+                                                           FontSize="{TemplateBinding FontSize}"
+                                                           FontFamily="{DynamicResource IconFont}"
+                                                           Foreground="{TemplateBinding Foreground}"></Label>
+                                <Label VerticalContentAlignment="Center"
+                                                           HorizontalContentAlignment="Left"
+                                                           FontSize="{TemplateBinding FontSize}"
+                                                           FontFamily="{DynamicResource IconFont}"
+                                                           Foreground="{TemplateBinding Foreground}">
+                                    <Label.Content>
+                                        <MultiBinding Converter="{StaticResource HeaderConverter}">
+                                            <Binding Path="Header"
+                                                                         RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
+                                            <Binding Path="Title"
+                                                                         RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
+                                        </MultiBinding>
+                                    </Label.Content>
+                                </Label>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
+                                <local:MyButton x:Name="btnMin"
+                                                                    Visibility="Hidden"
+                                                                    Content="&#xe66a;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
+                                                                    Command="{Binding MinCommand,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                                                    ButtonStyle="Hollow"
+                                                                    BorderBrush="Transparent"
+                                                                    CoverBrush="#99999999"
+                                                                    Foreground="{TemplateBinding Foreground}"
+                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    HorizontalAlignment="Right"
+                                                                    ></local:MyButton>
+                                <local:MyButton x:Name="btnMax"
+                                                                    Visibility="Hidden"
+                                                                    Content="&#xe669;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
+                                                                    Command="{Binding MaxCommand,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                                                    ButtonStyle="Hollow"
+                                                                    BorderBrush="Transparent"
+                                                                    CoverBrush="#99999999"
+                                                                    Foreground="{TemplateBinding Foreground}"
+                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    HorizontalAlignment="Right"
+                                                                    ></local:MyButton>
+                                <local:MyButton x:Name="btnClose"
+                                                                    Visibility="Hidden"
+                                                                    Content="&#xe61f;"
+                                                                    FontFamily="{DynamicResource Icon}"
+                                                                    FontSize="10"
+                                                                    Command="{Binding CloseCommand,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
+                                                                    ButtonStyle="Hollow"
+                                                                    BorderBrush="Transparent"
+                                                                    CoverBrush="#CCC53434"
+                                                                    Foreground="{TemplateBinding Foreground}"
+                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                    HorizontalAlignment="Right"
+                                                                     />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="1"
+                                                  x:Name="grdContainer">
+                            <AdornerDecorator>
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </AdornerDecorator>
+                        </Grid>
+                    </Grid>
+                    <Border x:Name="bdrCover"
+                                                Background="Black"
+                                                BorderThickness="0"
+                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                Opacity="0"
+                                                IsHitTestVisible="False" />
+                    <Border x:Name="bdrAwaitCover"
+                                                Background="Black"
+                                                BorderThickness="0"
+                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                Opacity="0"
+                                                IsHitTestVisible="False" />
+                    <core:MyLoading x:Name="loading"
+                                                         Foreground="#CCFFFFFF"
+                                                         Height="100"
+                                                         Width="100"></core:MyLoading>
+                </Grid>
+            </Border>
+            <Grid x:Name="grdResize"
+                                      Visibility="Collapsed">
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               VerticalAlignment="Top"
+                                               Height="5"
+                                               x:Name="Top"
+                                               Margin="5,0,5,0" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               x:Name="Bottom"
+                                               Height="5"
+                                               VerticalAlignment="Bottom"
+                                               Margin="5,0,5,0" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               HorizontalAlignment="Left"
+                                               Margin="0,5,0,5"
+                                               Width="5"
+                                               x:Name="Left" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               Margin="0,5,0,5"
+                                               Width="5"
+                                               HorizontalAlignment="Right"
+                                               x:Name="Right" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               Width="5"
+                                               Height="5"
+                                               x:Name="BottomLeft" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               VerticalAlignment="Bottom"
+                                               Height="5"
+                                               Width="5"
+                                               HorizontalAlignment="Right"
+                                               x:Name="BottomRight" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               HorizontalAlignment="Right"
+                                               Width="5"
+                                               Height="5"
+                                               VerticalAlignment="Top"
+                                               x:Name="TopRight" />
+                <Rectangle Stroke="{x:Null}"
+                                               Fill="#01FFFFFF"
+                                               HorizontalAlignment="Left"
+                                               Width="6"
+                                               VerticalAlignment="Top"
+                                               Height="5"
+                                               x:Name="TopLeft" />
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
+            </Trigger>
+            <EventTrigger RoutedEvent="local:MyWindow.BeginLoadStoryboard">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                             To="1"
+                                                             Duration="0:0:0.3" />
+                        <DoubleAnimation Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                             To="1"
+                                                             Duration="0:0:0.3" />
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             To="1"
+                                                             Duration="0:0:0.4" />
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdContent"
+                                                                           Storyboard.TargetProperty="Opacity">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.4"
+                                                                        Value="1">
+                            </DiscreteDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="local:MyWindow.SkipLoadStoryboard">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                                        Value="1">
+                            </DiscreteDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                                        Value="1">
+                            </DiscreteDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                                        Value="1">
+                            </DiscreteDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdContent"
+                                                                           Storyboard.TargetProperty="Opacity">
+                            <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                                        Value="1">
+                            </DiscreteDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="local:MyWindow.BeginCloseStoryboard">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.Target="{Binding ElementName=bdrOuter}" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                             To="0.95"
+                                                             Duration="0:0:0.3" />
+                        <DoubleAnimation Storyboard.Target="{Binding ElementName=bdrOuter}"  Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                             To="0.95"
+                                                             Duration="0:0:0.3" />
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+            <Trigger Property="AllowShowDelay"
+                                         Value="False">
+                <Setter TargetName="grdContent"
+                                            Property="Opacity"
+                                            Value="1" />
+            </Trigger>
+            <Trigger Property="AllowShowDelay"
+                                         Value="True">
+                <Setter TargetName="grdContent"
+                                            Property="Opacity"
+                                            Value="0" />
+            </Trigger>
+            <Trigger Property="IsCoverMaskShow"
+                                         Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="bdrCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0.7"
+                                                                 Duration="0:0:0.2"></DoubleAnimation>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrCover"
+                                                                                Storyboard.TargetProperty="IsHitTestVisible">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0"
+                                                                             Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="bdrCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.2"></DoubleAnimation>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrCover"
+                                                                                Storyboard.TargetProperty="IsHitTestVisible">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0"
+                                                                             Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+
+            </Trigger>
+            <Trigger Property="IsAwaitShow"
+                                         Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="bdrAwaitCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0.7"
+                                                                 Duration="0:0:0.2"></DoubleAnimation>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrAwaitCover"
+                                                                                Storyboard.TargetProperty="IsHitTestVisible">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0"
+                                                                             Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="loading"
+                                                                                Storyboard.TargetProperty="IsRunning">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0.1"
+                                                                             Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="bdrAwaitCover"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0"
+                                                                 Duration="0:0:0.2"></DoubleAnimation>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrAwaitCover"
+                                                                                Storyboard.TargetProperty="IsHitTestVisible">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0"
+                                                                             Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="loading"
+                                                                                Storyboard.TargetProperty="IsRunning">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0"
+                                                                             Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+
+            </Trigger>
+            <Trigger Property="ResizeMode"
+                                         Value="CanMinimize">
+                <Setter TargetName="btnMax"
+                                            Property="IsEnabled"
+                                            Value="False"></Setter>
+            </Trigger>
+            <Trigger Property="ResizeMode"
+                                         Value="NoResize">
+                <Setter TargetName="btnMin"
+                                            Property="IsEnabled"
+                                            Value="False"></Setter>
+                <Setter TargetName="btnMax"
+                                            Property="IsEnabled"
+                                            Value="False"></Setter>
+            </Trigger>
+            <Trigger Property="ResizeMode"
+                                         Value="CanResize">
+                <Setter TargetName="grdResize"
+                                            Property="Visibility"
+                                            Value="Visible" />
+            </Trigger>
+            <Trigger Property="NavButtonVisibility"
+                                         Value="Visible">
+                <Setter TargetName="btnMin"
+                                            Property="Visibility"
+                                            Value="Visible"></Setter>
+                <Setter TargetName="btnMax"
+                                            Property="Visibility"
+                                            Value="Visible"></Setter>
+                <Setter TargetName="btnClose"
+                                            Property="Visibility"
+                                            Value="Visible"></Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
     <Style TargetType="{x:Type local:MyWindow}">
         <Setter Property="Background"
                 Value="White"></Setter>
@@ -760,388 +1135,7 @@
                      Value="Scale">
                 <Setter Property="Opacity"
                         Value="0.5"></Setter>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:MyWindow}">
-                            <Grid>
-                                <Border x:Name="bdrOuter"
-                                        Margin="5"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
-                                        RenderTransformOrigin="0.5,0.5">
-                                    <Border.RenderTransform>
-                                        <ScaleTransform x:Name="scale"
-                                                        ScaleX="0.95"
-                                                        ScaleY="0.95" />
-                                    </Border.RenderTransform>
-                                    <Grid x:Name="grdContent"
-                                          Opacity="0">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}"></RowDefinition>
-                                                <RowDefinition Height="*"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Grid x:Name="grdNavbar"
-                                                  Background="{Binding NavbarBackground,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                <StackPanel Orientation="Horizontal"
-                                                            HorizontalAlignment="Left"
-                                                            Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                           Margin="3,0,0,0"
-                                                           VerticalContentAlignment="Center"
-                                                           HorizontalContentAlignment="Left"
-                                                           FontSize="{TemplateBinding FontSize}"
-                                                           FontFamily="{DynamicResource IconFont}"
-                                                           Foreground="{TemplateBinding Foreground}"></Label>
-                                                    <Label VerticalContentAlignment="Center"
-                                                           HorizontalContentAlignment="Left"
-                                                           FontSize="{TemplateBinding FontSize}"
-                                                           FontFamily="{DynamicResource IconFont}"
-                                                           Foreground="{TemplateBinding Foreground}">
-                                                        <Label.Content>
-                                                            <MultiBinding Converter="{StaticResource HeaderConverter}">
-                                                                <Binding Path="Header"
-                                                                         RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                                <Binding Path="Title"
-                                                                         RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                            </MultiBinding>
-                                                        </Label.Content>
-                                                    </Label>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal"
-                                                            HorizontalAlignment="Right"
-                                                            VerticalAlignment="Top"
-                                                            Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <local:MyButton x:Name="btnMin"
-                                                                    Visibility="Hidden"
-                                                                    Content="&#xe66a;"
-                                                                    FontFamily="{DynamicResource Icon}"
-                                                                    FontSize="10"
-                                                                    Command="{Binding MinCommand,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
-                                                                    ButtonStyle="Hollow"
-                                                                    BorderBrush="Transparent"
-                                                                    CoverBrush="#99999999"
-                                                                    Foreground="{TemplateBinding Foreground}"
-                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    HorizontalAlignment="Right"
-                                                                    ></local:MyButton>
-                                                    <local:MyButton x:Name="btnMax"
-                                                                    Visibility="Hidden"
-                                                                    Content="&#xe669;"
-                                                                    FontFamily="{DynamicResource Icon}"
-                                                                    FontSize="10"
-                                                                    Command="{Binding MaxCommand,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
-                                                                    ButtonStyle="Hollow"
-                                                                    BorderBrush="Transparent"
-                                                                    CoverBrush="#99999999"
-                                                                    Foreground="{TemplateBinding Foreground}"
-                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    HorizontalAlignment="Right"
-                                                                    ></local:MyButton>
-                                                    <local:MyButton x:Name="btnClose"
-                                                                    Visibility="Hidden"
-                                                                    Content="&#xe61f;"
-                                                                    FontFamily="{DynamicResource Icon}"
-                                                                    FontSize="10"
-                                                                    Command="{Binding CloseCommand,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}"
-                                                                    ButtonStyle="Hollow"
-                                                                    BorderBrush="Transparent"
-                                                                    CoverBrush="#CCC53434"
-                                                                    Foreground="{TemplateBinding Foreground}"
-                                                                    Width="{Binding NavButtonWidth,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                    HorizontalAlignment="Right"
-                                                                     />
-                                                </StackPanel>
-                                            </Grid>
-                                            <Grid Grid.Row="1"
-                                                  x:Name="grdContainer">
-                                                <AdornerDecorator>
-                                                    <ContentPresenter Content="{TemplateBinding Content}" />
-                                                </AdornerDecorator>
-                                            </Grid>
-                                        </Grid>
-                                        <Border x:Name="bdrCover"
-                                                Background="Black"
-                                                BorderThickness="0"
-                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                Opacity="0"
-                                                IsHitTestVisible="False" />
-                                        <Border x:Name="bdrAwaitCover"
-                                                Background="Black"
-                                                BorderThickness="0"
-                                                CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=Window}}"
-                                                Opacity="0"
-                                                IsHitTestVisible="False" />
-                                        <core:MyLoading x:Name="loading"
-                                                         Foreground="#CCFFFFFF"
-                                                         Height="100"
-                                                         Width="100"></core:MyLoading>
-                                    </Grid>
-                                </Border>
-                                <Grid x:Name="grdResize"
-                                      Visibility="Collapsed">
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               VerticalAlignment="Top"
-                                               Height="5"
-                                               x:Name="Top"
-                                               Margin="5,0,5,0" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               x:Name="Bottom"
-                                               Height="5"
-                                               VerticalAlignment="Bottom"
-                                               Margin="5,0,5,0" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               HorizontalAlignment="Left"
-                                               Margin="0,5,0,5"
-                                               Width="5"
-                                               x:Name="Left" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               Margin="0,5,0,5"
-                                               Width="5"
-                                               HorizontalAlignment="Right"
-                                               x:Name="Right" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Bottom"
-                                               Width="5"
-                                               Height="5"
-                                               x:Name="BottomLeft" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               VerticalAlignment="Bottom"
-                                               Height="5"
-                                               Width="5"
-                                               HorizontalAlignment="Right"
-                                               x:Name="BottomRight" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               HorizontalAlignment="Right"
-                                               Width="5"
-                                               Height="5"
-                                               VerticalAlignment="Top"
-                                               x:Name="TopRight" />
-                                    <Rectangle Stroke="{x:Null}"
-                                               Fill="#01FFFFFF"
-                                               HorizontalAlignment="Left"
-                                               Width="6"
-                                               VerticalAlignment="Top"
-                                               Height="5"
-                                               x:Name="TopLeft" />
-                                </Grid>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="WindowState" Value="Maximized">
-                                    <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
-                                </Trigger>
-                                <EventTrigger RoutedEvent="BeginLoadStoryboard">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="scale"
-                                                             Storyboard.TargetProperty="ScaleX"
-                                                             To="1"
-                                                             Duration="0:0:0.3" />
-                                            <DoubleAnimation Storyboard.TargetName="scale"
-                                                             Storyboard.TargetProperty="ScaleY"
-                                                             To="1"
-                                                             Duration="0:0:0.3" />
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             To="1"
-                                                             Duration="0:0:0.4" />
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdContent"
-                                                                           Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.4"
-                                                                        Value="1">
-                                                </DiscreteDoubleKeyFrame>
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="SkipLoadStoryboard">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scale"
-                                                                           Storyboard.TargetProperty="ScaleX">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0"
-                                                                        Value="1">
-                                                </DiscreteDoubleKeyFrame>
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scale"
-                                                                           Storyboard.TargetProperty="ScaleY">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0"
-                                                                        Value="1">
-                                                </DiscreteDoubleKeyFrame>
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0"
-                                                                        Value="1">
-                                                </DiscreteDoubleKeyFrame>
-                                            </DoubleAnimationUsingKeyFrames>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdContent"
-                                                                           Storyboard.TargetProperty="Opacity">
-                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0"
-                                                                        Value="1">
-                                                </DiscreteDoubleKeyFrame>
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="BeginCloseStoryboard">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="scale"
-                                                             Storyboard.TargetProperty="ScaleX"
-                                                             To="0.95"
-                                                             Duration="0:0:0.3" />
-                                            <DoubleAnimation Storyboard.TargetName="scale"
-                                                             Storyboard.TargetProperty="ScaleY"
-                                                             To="0.95"
-                                                             Duration="0:0:0.3" />
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             To="0"
-                                                             Duration="0:0:0.3" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <Trigger Property="AllowShowDelay"
-                                         Value="False">
-                                    <Setter TargetName="grdContent"
-                                            Property="Opacity"
-                                            Value="1" />
-                                </Trigger>
-                                <Trigger Property="AllowShowDelay"
-                                         Value="True">
-                                    <Setter TargetName="grdContent"
-                                            Property="Opacity"
-                                            Value="0" />
-                                </Trigger>
-                                <Trigger Property="IsCoverMaskShow"
-                                         Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="bdrCover"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.7"
-                                                                 Duration="0:0:0.2"></DoubleAnimation>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrCover"
-                                                                                Storyboard.TargetProperty="IsHitTestVisible">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0"
-                                                                             Value="True" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="bdrCover"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0"
-                                                                 Duration="0:0:0.2"></DoubleAnimation>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrCover"
-                                                                                Storyboard.TargetProperty="IsHitTestVisible">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0"
-                                                                             Value="False" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-
-                                </Trigger>
-                                <Trigger Property="IsAwaitShow"
-                                         Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="bdrAwaitCover"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0.7"
-                                                                 Duration="0:0:0.2"></DoubleAnimation>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrAwaitCover"
-                                                                                Storyboard.TargetProperty="IsHitTestVisible">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0"
-                                                                             Value="True" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="loading"
-                                                                                Storyboard.TargetProperty="IsRunning">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0.1"
-                                                                             Value="True" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="bdrAwaitCover"
-                                                                 Storyboard.TargetProperty="Opacity"
-                                                                 To="0"
-                                                                 Duration="0:0:0.2"></DoubleAnimation>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="bdrAwaitCover"
-                                                                                Storyboard.TargetProperty="IsHitTestVisible">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0"
-                                                                             Value="False" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                                <BooleanAnimationUsingKeyFrames Storyboard.TargetName="loading"
-                                                                                Storyboard.TargetProperty="IsRunning">
-                                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0"
-                                                                             Value="False" />
-                                                </BooleanAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-
-                                </Trigger>
-                                <Trigger Property="ResizeMode"
-                                         Value="CanMinimize">
-                                    <Setter TargetName="btnMax"
-                                            Property="IsEnabled"
-                                            Value="False"></Setter>
-                                </Trigger>
-                                <Trigger Property="ResizeMode"
-                                         Value="NoResize">
-                                    <Setter TargetName="btnMin"
-                                            Property="IsEnabled"
-                                            Value="False"></Setter>
-                                    <Setter TargetName="btnMax"
-                                            Property="IsEnabled"
-                                            Value="False"></Setter>
-                                </Trigger>
-                                <Trigger Property="ResizeMode"
-                                         Value="CanResize">
-                                    <Setter TargetName="grdResize"
-                                            Property="Visibility"
-                                            Value="Visible" />
-                                </Trigger>
-                                <Trigger Property="NavButtonVisibility"
-                                         Value="Visible">
-                                    <Setter TargetName="btnMin"
-                                            Property="Visibility"
-                                            Value="Visible"></Setter>
-                                    <Setter TargetName="btnMax"
-                                            Property="Visibility"
-                                            Value="Visible"></Setter>
-                                    <Setter TargetName="btnClose"
-                                            Property="Visibility"
-                                            Value="Visible"></Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Template"  Value="{StaticResource MyWindowScaleTemplate}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
