@@ -19,6 +19,7 @@ using System.Linq;
 
 namespace Myado.UI.Controls
 {
+    [TemplatePart(Name ="PART_NavBar",Type=typeof(Grid))]
     public partial class MyWindow : Window
     {
         #region Import
@@ -109,7 +110,7 @@ namespace Myado.UI.Controls
                 }
             }
 
-            var grdNavbar = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this, 0), 0), 0), 0), 0) as Grid;
+            var grdNavbar =this.GetTemplateChild("PART_NavBar") as Grid;
             _stkNav = VisualTreeHelper.GetChild(grdNavbar, 1) as StackPanel;
             grdNavbar.MouseLeftButtonDown += delegate
             {
@@ -528,6 +529,17 @@ namespace Myado.UI.Controls
         }
         public static readonly DependencyProperty NavbarBackgroundProperty =
             DependencyProperty.Register("NavbarBackground", typeof(Brush), typeof(MyWindow));
+
+        /// <summary>
+        /// 控制栏鼠标放上去背景色，默认值为White（白色）。
+        /// </summary>
+        public Brush NavbarHoverBackground
+        {
+            get { return (Brush)GetValue(NavbarHoverBackgroundroperty); }
+            set { SetValue(NavbarHoverBackgroundroperty, value); }
+        }
+        public static readonly DependencyProperty NavbarHoverBackgroundroperty =
+            DependencyProperty.Register("NavbarHoverBackground", typeof(Brush), typeof(MyWindow));
 
         /// <summary>
         /// 控制栏高度，默认值为30。

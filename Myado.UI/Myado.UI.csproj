@@ -125,6 +125,7 @@
     <Compile Include="Controls\MyButton.cs" />
     <Compile Include="Converters\HeaderConverter.cs" />
     <Compile Include="Converters\IconFontSizeConverter.cs" />
+    <Compile Include="Converters\NotNullConverter.cs" />
     <Compile Include="Extensions\ScreenExtensions.cs" />
     <Compile Include="Helpers\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

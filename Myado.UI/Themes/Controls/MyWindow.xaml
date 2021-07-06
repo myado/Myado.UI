@@ -1,10 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Myado.UI.Controls"
                     xmlns:cvt="clr-namespace:Myado.UI.Converters"
                     xmlns:core="clr-namespace:Myado.UI.Controls.Core">
     <cvt:HeaderConverter x:Key="HeaderConverter"></cvt:HeaderConverter>
     <cvt:IconFontSizeConverter x:Key="IconFontSizeConverter"></cvt:IconFontSizeConverter>
+    <cvt:NotNullConverter x:Key="NotNullConverter" />
+    <Style x:Key="WindowNavBarStyle" TargetType="Grid"/>
     <ControlTemplate x:Key="MyWindowScaleTemplate" TargetType="{x:Type local:MyWindow}">
         <Grid>
             <Border x:Name="bdrOuter"
@@ -26,38 +28,45 @@
                             <RowDefinition Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid x:Name="grdNavbar"
+                        <Grid Grid.Row="1"
+                                                  x:Name="grdContainer">
+                            <!--<AdornerDecorator>-->
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            <!--</AdornerDecorator>-->
+                        </Grid>
+                        <AdornerDecorator>
+                            <Grid x:Name="PART_NavBar" Style="{StaticResource WindowNavBarStyle}"
                                                   Background="{Binding NavbarBackground,RelativeSource={RelativeSource AncestorType=Window}}">
-                            <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Left"
                                                             Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
+                                    <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
                                                            Margin="3,0,0,0"
                                                            VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}"></Label>
-                                <Label VerticalContentAlignment="Center"
+                                    <Label VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}">
-                                    <Label.Content>
-                                        <MultiBinding Converter="{StaticResource HeaderConverter}">
-                                            <Binding Path="Header"
+                                        <Label.Content>
+                                            <MultiBinding Converter="{StaticResource HeaderConverter}">
+                                                <Binding Path="Header"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                            <Binding Path="Title"
+                                                <Binding Path="Title"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                        </MultiBinding>
-                                    </Label.Content>
-                                </Label>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal"
+                                            </MultiBinding>
+                                        </Label.Content>
+                                    </Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Right"
                                                             VerticalAlignment="Top"
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                <local:MyButton x:Name="btnMin"
+                                    <local:MyButton x:Name="btnMin"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe66a;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -72,7 +81,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                <local:MyButton x:Name="btnMax"
+                                    <local:MyButton x:Name="btnMax"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe669;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -87,7 +96,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                <local:MyButton x:Name="btnClose"
+                                    <local:MyButton x:Name="btnClose"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe61f;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -102,14 +111,9 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                      />
-                            </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="1"
-                                                  x:Name="grdContainer">
-                            <AdornerDecorator>
-                                <ContentPresenter Content="{TemplateBinding Content}" />
-                            </AdornerDecorator>
-                        </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </AdornerDecorator>
                     </Grid>
                     <Border x:Name="bdrCover"
                                                 Background="Black"
@@ -189,6 +193,13 @@
             <Trigger Property="WindowState" Value="Maximized">
                 <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
             </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsMouseOver,ElementName=PART_NavBar}"  Value="True" />
+                    <Condition Binding="{Binding Path=NavbarHoverBackground,RelativeSource={RelativeSource Self},Converter={StaticResource NotNullConverter}}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" TargetName="PART_NavBar" Value="{Binding NavbarHoverBackground,RelativeSource={RelativeSource AncestorType={x:Type local:MyWindow}}}" />
+            </MultiDataTrigger>
             <EventTrigger RoutedEvent="local:MyWindow.BeginLoadStoryboard">
                 <BeginStoryboard>
                     <Storyboard>
@@ -244,10 +255,12 @@
             <EventTrigger RoutedEvent="local:MyWindow.BeginCloseStoryboard">
                 <BeginStoryboard>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.Target="{Binding ElementName=bdrOuter}" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                        <DoubleAnimation Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
                                                              To="0.95"
                                                              Duration="0:0:0.3" />
-                        <DoubleAnimation Storyboard.Target="{Binding ElementName=bdrOuter}"  Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                        <DoubleAnimation Storyboard.TargetName="bdrOuter"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                              To="0.95"
                                                              Duration="0:0:0.3" />
                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -428,38 +441,45 @@
                                                 <RowDefinition Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}"></RowDefinition>
                                                 <RowDefinition Height="*"></RowDefinition>
                                             </Grid.RowDefinitions>
-                                            <Grid x:Name="grdNavbar"
+                                            <Grid Grid.Row="1"
+                                                  x:Name="grdContainer">
+                                                <!--<AdornerDecorator>-->
+                                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                                <!--</AdornerDecorator>-->
+                                            </Grid>
+                                            <AdornerDecorator>
+                                                <Grid x:Name="PART_NavBar" Style="{StaticResource WindowNavBarStyle}"
                                                   Background="{Binding NavbarBackground,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                <StackPanel Orientation="Horizontal"
+                                                    <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Left"
                                                             Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
                                                            Margin="3,0,0,0"
                                                            VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}"></Label>
-                                                    <Label VerticalContentAlignment="Center"
+                                                        <Label VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}">
-                                                        <Label.Content>
-                                                            <MultiBinding Converter="{StaticResource HeaderConverter}">
-                                                                <Binding Path="Header"
+                                                            <Label.Content>
+                                                                <MultiBinding Converter="{StaticResource HeaderConverter}">
+                                                                    <Binding Path="Header"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                                <Binding Path="Title"
+                                                                    <Binding Path="Title"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                            </MultiBinding>
-                                                        </Label.Content>
-                                                    </Label>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal"
+                                                                </MultiBinding>
+                                                            </Label.Content>
+                                                        </Label>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Right"
                                                             VerticalAlignment="Top"
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <local:MyButton x:Name="btnMin"
+                                                        <local:MyButton x:Name="btnMin"
                                                                     Visibility="Collapsed"
                                                                     Content="&#xe66a;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -474,7 +494,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                                    <local:MyButton x:Name="btnMax"
+                                                        <local:MyButton x:Name="btnMax"
                                                                     Visibility="Collapsed"
                                                                     Content="&#xe669;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -489,7 +509,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                                    <local:MyButton x:Name="btnClose"
+                                                        <local:MyButton x:Name="btnClose"
                                                                     Visibility="Collapsed"
                                                                     Content="&#xe61f;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -504,14 +524,9 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     />
-                                                </StackPanel>
-                                            </Grid>
-                                            <Grid Grid.Row="1"
-                                                  x:Name="grdContainer">
-                                                <AdornerDecorator>
-                                                    <ContentPresenter Content="{TemplateBinding Content}" />
-                                                </AdornerDecorator>
-                                            </Grid>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </AdornerDecorator>
                                         </Grid>
                                         <Border x:Name="bdrCover"
                                                 Background="Black"
@@ -591,6 +606,13 @@
                                 <Trigger Property="WindowState" Value="Maximized">
                                     <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
                                 </Trigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=IsMouseOver,ElementName=PART_NavBar}"  Value="True" />
+                                        <Condition Binding="{Binding Path=NavbarHoverBackground,RelativeSource={RelativeSource Self},Converter={StaticResource NotNullConverter}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" TargetName="PART_NavBar" Value="{Binding NavbarHoverBackground,RelativeSource={RelativeSource AncestorType={x:Type local:MyWindow}}}" />
+                                </MultiDataTrigger>
                                 <EventTrigger RoutedEvent="BeginLoadStoryboard">
                                     <BeginStoryboard>
                                         <Storyboard>
@@ -787,38 +809,45 @@
                                                 <RowDefinition Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}"></RowDefinition>
                                                 <RowDefinition Height="*"></RowDefinition>
                                             </Grid.RowDefinitions>
-                                            <Grid x:Name="grdNavbar"
+                                            <Grid Grid.Row="1"
+                                                  x:Name="grdContainer">
+                                                <!--<AdornerDecorator>-->
+                                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                                <!--</AdornerDecorator>-->
+                                            </Grid>
+                                            <!--<AdornerDecorator>-->
+                                                <Grid x:Name="PART_NavBar" Style="{StaticResource WindowNavBarStyle}"
                                                   Background="{Binding NavbarBackground,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                <StackPanel Orientation="Horizontal"
+                                                    <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Left"
                                                             Height="{Binding NavbarHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        <Label Content="{Binding Icon,RelativeSource={RelativeSource AncestorType=Window}}"
                                                            Margin="3,0,0,0"
                                                            VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}"></Label>
-                                                    <Label VerticalContentAlignment="Center"
+                                                        <Label VerticalContentAlignment="Center"
                                                            HorizontalContentAlignment="Left"
                                                            FontSize="{TemplateBinding FontSize}"
                                                            FontFamily="{DynamicResource IconFont}"
                                                            Foreground="{TemplateBinding Foreground}">
-                                                        <Label.Content>
-                                                            <MultiBinding Converter="{StaticResource HeaderConverter}">
-                                                                <Binding Path="Header"
+                                                            <Label.Content>
+                                                                <MultiBinding Converter="{StaticResource HeaderConverter}">
+                                                                    <Binding Path="Header"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                                <Binding Path="Title"
+                                                                    <Binding Path="Title"
                                                                          RelativeSource="{RelativeSource AncestorType=Window}"></Binding>
-                                                            </MultiBinding>
-                                                        </Label.Content>
-                                                    </Label>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal"
+                                                                </MultiBinding>
+                                                            </Label.Content>
+                                                        </Label>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Right"
                                                             VerticalAlignment="Top"
                                                             Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}">
-                                                    <local:MyButton x:Name="btnMin"
+                                                        <local:MyButton x:Name="btnMin"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe66a;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -833,7 +862,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                                    <local:MyButton x:Name="btnMax"
+                                                        <local:MyButton x:Name="btnMax"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe669;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -848,7 +877,7 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     ></local:MyButton>
-                                                    <local:MyButton x:Name="btnClose"
+                                                        <local:MyButton x:Name="btnClose"
                                                                     Visibility="Hidden"
                                                                     Content="&#xe61f;"
                                                                     FontFamily="{DynamicResource Icon}"
@@ -863,14 +892,9 @@
                                                                     Height="{Binding NavButtonHeight,RelativeSource={RelativeSource AncestorType=Window}}"
                                                                     HorizontalAlignment="Right"
                                                                     />
-                                                </StackPanel>
-                                            </Grid>
-                                            <Grid Grid.Row="1"
-                                                  x:Name="grdContainer">
-                                                <AdornerDecorator>
-                                                    <ContentPresenter Content="{TemplateBinding Content}" />
-                                                </AdornerDecorator>
-                                            </Grid>
+                                                    </StackPanel>
+                                                </Grid>
+                                            <!--</AdornerDecorator>-->
                                         </Grid>
                                         <Border x:Name="bdrCover"
                                                 Background="Black"
@@ -950,6 +974,13 @@
                                 <Trigger Property="WindowState" Value="Maximized">
                                     <Setter Property="Content" TargetName="btnMax" Value="&#xe66b;" />
                                 </Trigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=IsMouseOver,ElementName=PART_NavBar}"  Value="True" />
+                                        <Condition Binding="{Binding Path=NavbarHoverBackground,RelativeSource={RelativeSource Self},Converter={StaticResource NotNullConverter}}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" TargetName="PART_NavBar" Value="{Binding NavbarHoverBackground,RelativeSource={RelativeSource AncestorType={x:Type local:MyWindow}}}" />
+                                </MultiDataTrigger>
                                 <EventTrigger RoutedEvent="BeginLoadStoryboard">
                                     <BeginStoryboard>
                                         <Storyboard>
